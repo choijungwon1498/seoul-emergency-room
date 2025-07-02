@@ -1,0 +1,3646 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_dc843ac90800b9615421ae4e7424a1ae {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed;
+                bottom: 50px; left: 50px; width: 200px; height: 160px;
+                background-color: white; border:2px solid grey; z-index:9999;
+                font-size:14px; padding: 10px; border-radius: 5px; box-shadow: 3px 3px 5px rgba(0,0,0,0.3);">
+        <h4 style="margin-top:0;">🏥 응급의료기관 분류</h4>
+        <p><i class="fa fa-circle" style="color:red"></i> 지역응급의료센터</p>
+        <p><i class="fa fa-circle" style="color:orange"></i> 지역응급의료기관</p>
+        <p><i class="fa fa-circle" style="color:green"></i> 응급실운영신고기관</p>
+        <p><i class="fa fa-circle" style="color:blue"></i> 일반</p>
+    </div>
+    
+    
+    <div style="position: fixed;
+                top: 50px; right: 50px; width: 240px; height: 220px;
+                background-color: white; border:2px solid grey; z-index:9999;
+                font-size:14px; padding: 10px; border-radius: 5px; box-shadow: 3px 3px 5px rgba(0,0,0,0.3);">
+        <h4 style="margin-top:0;">📊 서울시 응급의료기관 현황</h4>
+        <p><strong>전체:</strong> 73개</p>
+        <hr>
+        <p><strong style="color:red;">지역응급의료센터:</strong> 24개</p>
+        <p><strong style="color:orange;">지역응급의료기관:</strong> 19개</p>
+        <p><strong style="color:green;">응급실운영신고기관:</strong> 23개</p>
+        <p><strong style="color:blue;">일반:</strong> 0개</p>
+        <hr>
+        <p style="font-size:12px; color:gray;">📅 데이터: 2025-06-07</p>
+        <p style="font-size:12px; color:gray;">🔄 실시간 업데이트</p>
+    </div>
+    
+    
+            <div class="folium-map" id="map_dc843ac90800b9615421ae4e7424a1ae" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_dc843ac90800b9615421ae4e7424a1ae = L.map(
+                "map_dc843ac90800b9615421ae4e7424a1ae",
+                {
+                    center: [37.5665, 126.978],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5907776a88327a9ad52e2d56e55a1cc6 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5907776a88327a9ad52e2d56e55a1cc6.addTo(map_dc843ac90800b9615421ae4e7424a1ae);
+        
+    
+            var marker_cluster_2c6a458e911ef64a8afb88251dfb6144 = L.markerClusterGroup(
+                {
+}
+            );
+        
+    
+            var marker_1afd82fb0ef76f69d59482214d7ac799 = L.marker(
+                [37.5182723380071, 126.936731295991],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_d5f64605c2fb695c5040ec23cbf51878 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_eafe3d3a40e040555e2dc8ba7d1d361c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c802caa99498e6ce1f5590b87351e289 = $(`<div id="html_c802caa99498e6ce1f5590b87351e289" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>가톨릭대학교 여의도성모병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-3779-1199</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 63로 10, 여의도성모병원 (여의도동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5183, 126.9367</p>             </div>             </div>`)[0];
+                popup_eafe3d3a40e040555e2dc8ba7d1d361c.setContent(html_c802caa99498e6ce1f5590b87351e289);
+            
+        
+
+        marker_1afd82fb0ef76f69d59482214d7ac799.bindPopup(popup_eafe3d3a40e040555e2dc8ba7d1d361c)
+        ;
+
+        
+    
+    
+            marker_1afd82fb0ef76f69d59482214d7ac799.bindTooltip(
+                `<div>
+                     가톨릭대학교 여의도성모병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1afd82fb0ef76f69d59482214d7ac799.setIcon(icon_d5f64605c2fb695c5040ec23cbf51878);
+            
+    
+            var marker_478bb03602a35e57f94b9e3ce0ac40d3 = L.marker(
+                [37.6336084097268, 126.916150487396],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_7dfa7d31f3c8817feeb94b636b71e483 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_58797ee340609fcf8c7622d20c90cd8a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c399765dab95e51f940af4b9d2bd12b8 = $(`<div id="html_c399765dab95e51f940af4b9d2bd12b8" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>가톨릭대학교은평성모병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 은평구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-1811-7755</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 은평구 통일로 1021 (진관동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6336, 126.9162</p>             </div>             </div>`)[0];
+                popup_58797ee340609fcf8c7622d20c90cd8a.setContent(html_c399765dab95e51f940af4b9d2bd12b8);
+            
+        
+
+        marker_478bb03602a35e57f94b9e3ce0ac40d3.bindPopup(popup_58797ee340609fcf8c7622d20c90cd8a)
+        ;
+
+        
+    
+    
+            marker_478bb03602a35e57f94b9e3ce0ac40d3.bindTooltip(
+                `<div>
+                     가톨릭대학교은평성모병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_478bb03602a35e57f94b9e3ce0ac40d3.setIcon(icon_7dfa7d31f3c8817feeb94b636b71e483);
+            
+    
+            var marker_8ff453d8eb70dd3bb47a41ce346b1e10 = L.marker(
+                [37.4856188363947, 126.956781703053],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_beb3dfd81a80cbbd3f81d87d496b0c60 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3b7b0c34b01e67676b80dcfa81f9ff43 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_de1b894ca710146c8b69b500b36cb2fe = $(`<div id="html_de1b894ca710146c8b69b500b36cb2fe" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강남고려병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 관악구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-874-7227</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 관악구 관악로 242 (봉천동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4856, 126.9568</p>             </div>             </div>`)[0];
+                popup_3b7b0c34b01e67676b80dcfa81f9ff43.setContent(html_de1b894ca710146c8b69b500b36cb2fe);
+            
+        
+
+        marker_8ff453d8eb70dd3bb47a41ce346b1e10.bindPopup(popup_3b7b0c34b01e67676b80dcfa81f9ff43)
+        ;
+
+        
+    
+    
+            marker_8ff453d8eb70dd3bb47a41ce346b1e10.bindTooltip(
+                `<div>
+                     강남고려병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8ff453d8eb70dd3bb47a41ce346b1e10.setIcon(icon_beb3dfd81a80cbbd3f81d87d496b0c60);
+            
+    
+            var marker_5e908bdd4f38a7080092870964bb1096 = L.marker(
+                [37.5009902618151, 127.050967336445],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_3f3e4344e9c4dd26fc185c03ff9f1191 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5c8d90ae9cf08e952286cc4f089d3bf1 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2c86695bde4ec7b03a2de9555e1d416f = $(`<div id="html_2c86695bde4ec7b03a2de9555e1d416f" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강남더드림병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강남구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 070-4676-5002</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강남구 선릉로 404, 더드림병원 (대치동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5010, 127.0510</p>             </div>             </div>`)[0];
+                popup_5c8d90ae9cf08e952286cc4f089d3bf1.setContent(html_2c86695bde4ec7b03a2de9555e1d416f);
+            
+        
+
+        marker_5e908bdd4f38a7080092870964bb1096.bindPopup(popup_5c8d90ae9cf08e952286cc4f089d3bf1)
+        ;
+
+        
+    
+    
+            marker_5e908bdd4f38a7080092870964bb1096.bindTooltip(
+                `<div>
+                     강남더드림병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5e908bdd4f38a7080092870964bb1096.setIcon(icon_3f3e4344e9c4dd26fc185c03ff9f1191);
+            
+    
+            var marker_96b5836a5648a2401a96c9d86e7bc56d = L.marker(
+                [37.4856121799257, 127.039587342916],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_5d88d6845e83cc7798776fc40777905e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8e68a2826049add576c85555e574e41a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e7645ee4c43faf2702479e425dbd4a72 = $(`<div id="html_e7645ee4c43faf2702479e425dbd4a72" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강남베드로병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강남구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 1544-7522</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강남구 남부순환로 2649, 베드로병원 (도곡동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4856, 127.0396</p>             </div>             </div>`)[0];
+                popup_8e68a2826049add576c85555e574e41a.setContent(html_e7645ee4c43faf2702479e425dbd4a72);
+            
+        
+
+        marker_96b5836a5648a2401a96c9d86e7bc56d.bindPopup(popup_8e68a2826049add576c85555e574e41a)
+        ;
+
+        
+    
+    
+            marker_96b5836a5648a2401a96c9d86e7bc56d.bindTooltip(
+                `<div>
+                     강남베드로병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_96b5836a5648a2401a96c9d86e7bc56d.setIcon(icon_5d88d6845e83cc7798776fc40777905e);
+            
+    
+            var marker_b023492bdc0824766c007649eed5c75b = L.marker(
+                [37.4816513439454, 126.911648078471],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_c39ec697a0b96aca06df560fdd23cb5e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fdf9754d666ef2c2932e0eac349acdf2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_136ae2b52b2f76939a753678f33419b8 = $(`<div id="html_136ae2b52b2f76939a753678f33419b8" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강남힐병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 관악구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-853-9100</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 관악구 남부순환로 1449, 강남힐병원 (신림동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4817, 126.9116</p>             </div>             </div>`)[0];
+                popup_fdf9754d666ef2c2932e0eac349acdf2.setContent(html_136ae2b52b2f76939a753678f33419b8);
+            
+        
+
+        marker_b023492bdc0824766c007649eed5c75b.bindPopup(popup_fdf9754d666ef2c2932e0eac349acdf2)
+        ;
+
+        
+    
+    
+            marker_b023492bdc0824766c007649eed5c75b.bindTooltip(
+                `<div>
+                     강남힐병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b023492bdc0824766c007649eed5c75b.setIcon(icon_c39ec697a0b96aca06df560fdd23cb5e);
+            
+    
+            var marker_418948b8f69d8b99bb2c4d190f45364b = L.marker(
+                [37.5520459324005, 127.157084787845],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_9b522b8592cff4bbaef4d442499d71b0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9c2275be3a3f9fa64ce700b6c9048a53 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3359ecc23bc92b7aac06054f436b203d = $(`<div id="html_3359ecc23bc92b7aac06054f436b203d" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강동경희대학교의대병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강동구</p>                 <p><strong>📋 분류:</strong> <span style='color:black;'>권역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-440-7000</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강동구 동남로 892 (상일동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5520, 127.1571</p>             </div>             </div>`)[0];
+                popup_9c2275be3a3f9fa64ce700b6c9048a53.setContent(html_3359ecc23bc92b7aac06054f436b203d);
+            
+        
+
+        marker_418948b8f69d8b99bb2c4d190f45364b.bindPopup(popup_9c2275be3a3f9fa64ce700b6c9048a53)
+        ;
+
+        
+    
+    
+            marker_418948b8f69d8b99bb2c4d190f45364b.bindTooltip(
+                `<div>
+                     강동경희대학교의대병원 (권역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_418948b8f69d8b99bb2c4d190f45364b.setIcon(icon_9b522b8592cff4bbaef4d442499d71b0);
+            
+    
+            var marker_1c3f829cb15cd4db5f2e29d422d78518 = L.marker(
+                [37.5684976312338, 126.967938054517],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_4c88189da2c35db29089d39770a9b639 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_95131155c0dea8d2429ebd1c605bb496 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_df3e37596516562a407ddb5edeebb717 = $(`<div id="html_df3e37596516562a407ddb5edeebb717" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강북삼성병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 종로구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2001-1000</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 종로구 새문안로 29 (평동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5685, 126.9679</p>             </div>             </div>`)[0];
+                popup_95131155c0dea8d2429ebd1c605bb496.setContent(html_df3e37596516562a407ddb5edeebb717);
+            
+        
+
+        marker_1c3f829cb15cd4db5f2e29d422d78518.bindPopup(popup_95131155c0dea8d2429ebd1c605bb496)
+        ;
+
+        
+    
+    
+            marker_1c3f829cb15cd4db5f2e29d422d78518.bindTooltip(
+                `<div>
+                     강북삼성병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1c3f829cb15cd4db5f2e29d422d78518.setIcon(icon_4c88189da2c35db29089d39770a9b639);
+            
+    
+            var marker_a91e258dd11118f6abf503b42f535580 = L.marker(
+                [37.6254205559935, 127.026184524499],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_f136a63c710c2030280eb2a99bba54c1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bce69ed839ac60720278e055457d3c1c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_01e373503d8720f8f9ed0dc118b79b3f = $(`<div id="html_01e373503d8720f8f9ed0dc118b79b3f" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강북으뜸병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강북구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-986-0334</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강북구 도봉로 187, 지하1층, 지상1층~지상5층 (미아동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6254, 127.0262</p>             </div>             </div>`)[0];
+                popup_bce69ed839ac60720278e055457d3c1c.setContent(html_01e373503d8720f8f9ed0dc118b79b3f);
+            
+        
+
+        marker_a91e258dd11118f6abf503b42f535580.bindPopup(popup_bce69ed839ac60720278e055457d3c1c)
+        ;
+
+        
+    
+    
+            marker_a91e258dd11118f6abf503b42f535580.bindTooltip(
+                `<div>
+                     강북으뜸병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a91e258dd11118f6abf503b42f535580.setIcon(icon_f136a63c710c2030280eb2a99bba54c1);
+            
+    
+            var marker_8d429c7ded5226576219b0f5489982c1 = L.marker(
+                [37.5373576230977, 126.836699017573],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_13fd9068e0461c7a8302195dd1b55e73 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_483874d572d746022f40628cea623aa8 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_22441012e74dac6de305201fe7e03c72 = $(`<div id="html_22441012e74dac6de305201fe7e03c72" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>강서케이병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강서구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-6905-8585</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강서구 가로공원로 187, 강서케이병원 (화곡동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5374, 126.8367</p>             </div>             </div>`)[0];
+                popup_483874d572d746022f40628cea623aa8.setContent(html_22441012e74dac6de305201fe7e03c72);
+            
+        
+
+        marker_8d429c7ded5226576219b0f5489982c1.bindPopup(popup_483874d572d746022f40628cea623aa8)
+        ;
+
+        
+    
+    
+            marker_8d429c7ded5226576219b0f5489982c1.bindTooltip(
+                `<div>
+                     강서케이병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8d429c7ded5226576219b0f5489982c1.setIcon(icon_13fd9068e0461c7a8302195dd1b55e73);
+            
+    
+            var marker_30ab42b1b2eb4ee8749f8645018330a2 = L.marker(
+                [37.5408447946772, 127.072122909303],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_513aeb786b72ce9e31c2ebadbb5c509b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_09663a990237eec86f8c4d4951c0fb3b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_473eec3ce530535b7e2258350337caee = $(`<div id="html_473eec3ce530535b7e2258350337caee" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>건국대학교병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 광진구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2030-5555</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 광진구 능동로 120-1 (화양동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5408, 127.0721</p>             </div>             </div>`)[0];
+                popup_09663a990237eec86f8c4d4951c0fb3b.setContent(html_473eec3ce530535b7e2258350337caee);
+            
+        
+
+        marker_30ab42b1b2eb4ee8749f8645018330a2.bindPopup(popup_09663a990237eec86f8c4d4951c0fb3b)
+        ;
+
+        
+    
+    
+            marker_30ab42b1b2eb4ee8749f8645018330a2.bindTooltip(
+                `<div>
+                     건국대학교병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_30ab42b1b2eb4ee8749f8645018330a2.setIcon(icon_513aeb786b72ce9e31c2ebadbb5c509b);
+            
+    
+            var marker_09e1a0c67cbcf1cebbe4da79cb16cf27 = L.marker(
+                [37.4964132135607, 127.123487935032],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_3acf70b197e607d0755146fc4695397e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0419a4b87654d2be316c4f2b244ab439 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c91e467eeffcabdfddd3942da7bc1007 = $(`<div id="html_c91e467eeffcabdfddd3942da7bc1007" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>경찰병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 송파구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-3400-1300</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 송파구 송이로 123, 국립경찰병원 (가락동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4964, 127.1235</p>             </div>             </div>`)[0];
+                popup_0419a4b87654d2be316c4f2b244ab439.setContent(html_c91e467eeffcabdfddd3942da7bc1007);
+            
+        
+
+        marker_09e1a0c67cbcf1cebbe4da79cb16cf27.bindPopup(popup_0419a4b87654d2be316c4f2b244ab439)
+        ;
+
+        
+    
+    
+            marker_09e1a0c67cbcf1cebbe4da79cb16cf27.bindTooltip(
+                `<div>
+                     경찰병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_09e1a0c67cbcf1cebbe4da79cb16cf27.setIcon(icon_3acf70b197e607d0755146fc4695397e);
+            
+    
+            var marker_d66367be4e9a1d679965c5e768233609 = L.marker(
+                [37.5938765502235, 127.051832233903],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_8d3a82b7b8d027c07ccaf3f184afe599 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3cb0aa462697bdbbaf619e16fca9133b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_7d1d23d0b772a5cf16648f1714432957 = $(`<div id="html_7d1d23d0b772a5cf16648f1714432957" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>경희대학교병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 동대문구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-958-8114</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 동대문구 경희대로 23 (회기동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5939, 127.0518</p>             </div>             </div>`)[0];
+                popup_3cb0aa462697bdbbaf619e16fca9133b.setContent(html_7d1d23d0b772a5cf16648f1714432957);
+            
+        
+
+        marker_d66367be4e9a1d679965c5e768233609.bindPopup(popup_3cb0aa462697bdbbaf619e16fca9133b)
+        ;
+
+        
+    
+    
+            marker_d66367be4e9a1d679965c5e768233609.bindTooltip(
+                `<div>
+                     경희대학교병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d66367be4e9a1d679965c5e768233609.setIcon(icon_8d3a82b7b8d027c07ccaf3f184afe599);
+            
+    
+            var marker_cc6dd2db111e3c49e6566013afd243e9 = L.marker(
+                [37.4921111452505, 126.884744936354],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_3fe923d6423ef9a0ff820d16a18478d6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9caacbde5388234c5067ddff1fd2c7d4 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_cc8840d696a40100f8cfbbd8ca73ffc6 = $(`<div id="html_cc8840d696a40100f8cfbbd8ca73ffc6" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>고려대학교의과대학부속구로병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 구로구</p>                 <p><strong>📋 분류:</strong> <span style='color:black;'>권역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2626-1550</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 구로구 구로동로 148, 고려대부속구로병원 (구로동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4921, 126.8847</p>             </div>             </div>`)[0];
+                popup_9caacbde5388234c5067ddff1fd2c7d4.setContent(html_cc8840d696a40100f8cfbbd8ca73ffc6);
+            
+        
+
+        marker_cc6dd2db111e3c49e6566013afd243e9.bindPopup(popup_9caacbde5388234c5067ddff1fd2c7d4)
+        ;
+
+        
+    
+    
+            marker_cc6dd2db111e3c49e6566013afd243e9.bindTooltip(
+                `<div>
+                     고려대학교의과대학부속구로병원 (권역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cc6dd2db111e3c49e6566013afd243e9.setIcon(icon_3fe923d6423ef9a0ff820d16a18478d6);
+            
+    
+            var marker_3809c200d7ed13db39598bf7b6d546f2 = L.marker(
+                [37.4996457866938, 126.866360395564],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_1b1424e5af43fae0234384a0a86c204d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_73191cdda7e49c070b5a52b58d442892 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_6c4f074fe2f7b0102c1a63ee0a5eac94 = $(`<div id="html_6c4f074fe2f7b0102c1a63ee0a5eac94" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>구로성심병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 구로구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2067-1515</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 구로구 경인로 427, 구로성심병원 (고척동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4996, 126.8664</p>             </div>             </div>`)[0];
+                popup_73191cdda7e49c070b5a52b58d442892.setContent(html_6c4f074fe2f7b0102c1a63ee0a5eac94);
+            
+        
+
+        marker_3809c200d7ed13db39598bf7b6d546f2.bindPopup(popup_73191cdda7e49c070b5a52b58d442892)
+        ;
+
+        
+    
+    
+            marker_3809c200d7ed13db39598bf7b6d546f2.bindTooltip(
+                `<div>
+                     구로성심병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3809c200d7ed13db39598bf7b6d546f2.setIcon(icon_1b1424e5af43fae0234384a0a86c204d);
+            
+    
+            var marker_bb615c6d223657ee7a8c5a2c20fcc157 = L.marker(
+                [37.5673395581318, 127.005795397054],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_d0e903fcace225c6658d29a8c793180f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4563abf36a03006ac8448cc09f5ca725 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_893037bc765533c49439dc5781755034 = $(`<div id="html_893037bc765533c49439dc5781755034" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>국립중앙의료원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 중구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2276-2114</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 중구 을지로 245, 국립중앙의료원 (을지로6가)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5673, 127.0058</p>             </div>             </div>`)[0];
+                popup_4563abf36a03006ac8448cc09f5ca725.setContent(html_893037bc765533c49439dc5781755034);
+            
+        
+
+        marker_bb615c6d223657ee7a8c5a2c20fcc157.bindPopup(popup_4563abf36a03006ac8448cc09f5ca725)
+        ;
+
+        
+    
+    
+            marker_bb615c6d223657ee7a8c5a2c20fcc157.bindTooltip(
+                `<div>
+                     국립중앙의료원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bb615c6d223657ee7a8c5a2c20fcc157.setIcon(icon_d0e903fcace225c6658d29a8c793180f);
+            
+    
+            var marker_73f7ae74b23fa8cbf80435795e0b168c = L.marker(
+                [37.482713030212, 127.018063486739],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_b8ca56fadb86c829cb1f6c8ed6c1649e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1b21f9e902d5fca549292a43ac45d4ca = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_988c3bef64744f9e8def77552e420413 = $(`<div id="html_988c3bef64744f9e8def77552e420413" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>기쁨병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 서초구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-570-1212</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4827, 127.0181</p>             </div>             </div>`)[0];
+                popup_1b21f9e902d5fca549292a43ac45d4ca.setContent(html_988c3bef64744f9e8def77552e420413);
+            
+        
+
+        marker_73f7ae74b23fa8cbf80435795e0b168c.bindPopup(popup_1b21f9e902d5fca549292a43ac45d4ca)
+        ;
+
+        
+    
+    
+            marker_73f7ae74b23fa8cbf80435795e0b168c.bindTooltip(
+                `<div>
+                     기쁨병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_73f7ae74b23fa8cbf80435795e0b168c.setIcon(icon_b8ca56fadb86c829cb1f6c8ed6c1649e);
+            
+    
+            var marker_a26a79deb592e5dff96c381273b250e0 = L.marker(
+                [37.6364429273867, 127.070002819913],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_50733608912b590788b2bb60c95bb83b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e4cae8eeddb27915f5eb482818eca058 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_dc1b1e8ab54e5781ecc2b65ddb12fa1c = $(`<div id="html_dc1b1e8ab54e5781ecc2b65ddb12fa1c" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>노원을지대학교병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 노원구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-970-8282</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 노원구 한글비석로 68, 을지병원 (하계동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6364, 127.0700</p>             </div>             </div>`)[0];
+                popup_e4cae8eeddb27915f5eb482818eca058.setContent(html_dc1b1e8ab54e5781ecc2b65ddb12fa1c);
+            
+        
+
+        marker_a26a79deb592e5dff96c381273b250e0.bindPopup(popup_e4cae8eeddb27915f5eb482818eca058)
+        ;
+
+        
+    
+    
+            marker_a26a79deb592e5dff96c381273b250e0.bindTooltip(
+                `<div>
+                     노원을지대학교병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a26a79deb592e5dff96c381273b250e0.setIcon(icon_50733608912b590788b2bb60c95bb83b);
+            
+    
+            var marker_f2c0e43dbf663115627f3423b769a2c5 = L.marker(
+                [37.583620838961, 127.086055469693],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_02125a4af399585249b6ba753bf02d75 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bb7e5af52986d91df3cc7759d09cf286 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_f297e6d76ff1bd4b364037f3e8595c8e = $(`<div id="html_f297e6d76ff1bd4b364037f3e8595c8e" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>녹색병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 중랑구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-490-2113</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 중랑구 사가정로49길 53 (면목동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5836, 127.0861</p>             </div>             </div>`)[0];
+                popup_bb7e5af52986d91df3cc7759d09cf286.setContent(html_f297e6d76ff1bd4b364037f3e8595c8e);
+            
+        
+
+        marker_f2c0e43dbf663115627f3423b769a2c5.bindPopup(popup_bb7e5af52986d91df3cc7759d09cf286)
+        ;
+
+        
+    
+    
+            marker_f2c0e43dbf663115627f3423b769a2c5.bindTooltip(
+                `<div>
+                     녹색병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f2c0e43dbf663115627f3423b769a2c5.setIcon(icon_02125a4af399585249b6ba753bf02d75);
+            
+    
+            var marker_8d038d4259966bf22242903e79df964b = L.marker(
+                [37.4906892543628, 126.907169480251],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_10b633eb047d82676d0b54cff1a844a7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f8d2fff04ad3b5d6516a16d1eb0e7add = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d11ddb72260f4123a2ead4e495fa1cc5 = $(`<div id="html_d11ddb72260f4123a2ead4e495fa1cc5" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>대림성모병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-829-9129</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 시흥대로 657 (대림동, 대림성모병원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4907, 126.9072</p>             </div>             </div>`)[0];
+                popup_f8d2fff04ad3b5d6516a16d1eb0e7add.setContent(html_d11ddb72260f4123a2ead4e495fa1cc5);
+            
+        
+
+        marker_8d038d4259966bf22242903e79df964b.bindPopup(popup_f8d2fff04ad3b5d6516a16d1eb0e7add)
+        ;
+
+        
+    
+    
+            marker_8d038d4259966bf22242903e79df964b.bindTooltip(
+                `<div>
+                     대림성모병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8d038d4259966bf22242903e79df964b.setIcon(icon_10b633eb047d82676d0b54cff1a844a7);
+            
+    
+            var marker_b0ec4b711dea9129cf64c5ec20e5e7f3 = L.marker(
+                [37.4938507104387, 126.899254469225],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_bc1ce5e824e97bf661db464750d466ad = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ac3bd400bd17a77565537f623d79f380 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5259804dd7b21341b8b0882e37c085f4 = $(`<div id="html_5259804dd7b21341b8b0882e37c085f4" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>명지성모병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-829-7800</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 도림로 156, 명지성모병원 (대림동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4939, 126.8993</p>             </div>             </div>`)[0];
+                popup_ac3bd400bd17a77565537f623d79f380.setContent(html_5259804dd7b21341b8b0882e37c085f4);
+            
+        
+
+        marker_b0ec4b711dea9129cf64c5ec20e5e7f3.bindPopup(popup_ac3bd400bd17a77565537f623d79f380)
+        ;
+
+        
+    
+    
+            marker_b0ec4b711dea9129cf64c5ec20e5e7f3.bindTooltip(
+                `<div>
+                     명지성모병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b0ec4b711dea9129cf64c5ec20e5e7f3.setIcon(icon_bc1ce5e824e97bf661db464750d466ad);
+            
+    
+            var marker_1ad2d4fe49cb8470411e699bbeefa475 = L.marker(
+                [37.5522537935829, 126.836025351562],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_14f751b96b5d9ce3f32bf284eb2acd1c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c416b625f086f980abaf1a52cdfb3628 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_19de7ab8f31c51161855e6b968bbf93c = $(`<div id="html_19de7ab8f31c51161855e6b968bbf93c" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>미즈메디병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강서구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2007-1118</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강서구 강서로 295 (내발산동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5523, 126.8360</p>             </div>             </div>`)[0];
+                popup_c416b625f086f980abaf1a52cdfb3628.setContent(html_19de7ab8f31c51161855e6b968bbf93c);
+            
+        
+
+        marker_1ad2d4fe49cb8470411e699bbeefa475.bindPopup(popup_c416b625f086f980abaf1a52cdfb3628)
+        ;
+
+        
+    
+    
+            marker_1ad2d4fe49cb8470411e699bbeefa475.bindTooltip(
+                `<div>
+                     미즈메디병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1ad2d4fe49cb8470411e699bbeefa475.setIcon(icon_14f751b96b5d9ce3f32bf284eb2acd1c);
+            
+    
+            var marker_48526518478881dbcacae792b1f911ba = L.marker(
+                [37.5569408928935, 126.850949505391],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_57b28b399eb667206d81c31233c83c51 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3e69d9d7e4ff5e568e41faddacafbd3d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e8b98780f87bd837b54978f29e8f2dc2 = $(`<div id="html_e8b98780f87bd837b54978f29e8f2dc2" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>부민병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강서구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2620-0119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강서구 공항대로 389, 부민병원 (등촌동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5569, 126.8509</p>             </div>             </div>`)[0];
+                popup_3e69d9d7e4ff5e568e41faddacafbd3d.setContent(html_e8b98780f87bd837b54978f29e8f2dc2);
+            
+        
+
+        marker_48526518478881dbcacae792b1f911ba.bindPopup(popup_3e69d9d7e4ff5e568e41faddacafbd3d)
+        ;
+
+        
+    
+    
+            marker_48526518478881dbcacae792b1f911ba.bindTooltip(
+                `<div>
+                     부민병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_48526518478881dbcacae792b1f911ba.setIcon(icon_57b28b399eb667206d81c31233c83c51);
+            
+    
+            var marker_acd4efa2db957b27c715d33f2ac0306d = L.marker(
+                [37.4796247835746, 126.956285774259],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_74c5a9541636c39410a4c619416f8f83 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bddc21286366d5b8d37126d1c5f364ea = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9e7eaaf1c5b3cb1806b59ff09724d9e1 = $(`<div id="html_9e7eaaf1c5b3cb1806b59ff09724d9e1" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>사랑의병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 관악구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-880-0119</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 관악구 남부순환로 1860, -1,1,3,4,5층 (봉천동,  )...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4796, 126.9563</p>             </div>             </div>`)[0];
+                popup_bddc21286366d5b8d37126d1c5f364ea.setContent(html_9e7eaaf1c5b3cb1806b59ff09724d9e1);
+            
+        
+
+        marker_acd4efa2db957b27c715d33f2ac0306d.bindPopup(popup_bddc21286366d5b8d37126d1c5f364ea)
+        ;
+
+        
+    
+    
+            marker_acd4efa2db957b27c715d33f2ac0306d.bindTooltip(
+                `<div>
+                     사랑의병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_acd4efa2db957b27c715d33f2ac0306d.setIcon(icon_74c5a9541636c39410a4c619416f8f83);
+            
+    
+            var marker_6e314842f2507da5d31ca1c0f38b99d8 = L.marker(
+                [37.4885161349044, 127.0866824534],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_030dc392d10b7210d2201f869c2fc83e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2558a9d9f3c6e5f78c7e6c508e7270ed = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ee5dc1db84eb3a57e537414b61ede2b3 = $(`<div id="html_ee5dc1db84eb3a57e537414b61ede2b3" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>삼성서울병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강남구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-3410-2060</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강남구 일원로 81 (일원동, 삼성의료원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4885, 127.0867</p>             </div>             </div>`)[0];
+                popup_2558a9d9f3c6e5f78c7e6c508e7270ed.setContent(html_ee5dc1db84eb3a57e537414b61ede2b3);
+            
+        
+
+        marker_6e314842f2507da5d31ca1c0f38b99d8.bindPopup(popup_2558a9d9f3c6e5f78c7e6c508e7270ed)
+        ;
+
+        
+    
+    
+            marker_6e314842f2507da5d31ca1c0f38b99d8.bindTooltip(
+                `<div>
+                     삼성서울병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6e314842f2507da5d31ca1c0f38b99d8.setIcon(icon_030dc392d10b7210d2201f869c2fc83e);
+            
+    
+            var marker_df996613c7c20b74c16561e1e91f339d = L.marker(
+                [37.5879920013053, 127.065328826682],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_7f1c17a43d86afed6033ddea719059ac = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_32bcf34c7bd5fec516fb7a8564b92b62 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ab85ffba38485995fd3b190f12daecfd = $(`<div id="html_ab85ffba38485995fd3b190f12daecfd" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>삼육서울병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 동대문구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2210-3566</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 동대문구 망우로 82 (휘경동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5880, 127.0653</p>             </div>             </div>`)[0];
+                popup_32bcf34c7bd5fec516fb7a8564b92b62.setContent(html_ab85ffba38485995fd3b190f12daecfd);
+            
+        
+
+        marker_df996613c7c20b74c16561e1e91f339d.bindPopup(popup_32bcf34c7bd5fec516fb7a8564b92b62)
+        ;
+
+        
+    
+    
+            marker_df996613c7c20b74c16561e1e91f339d.bindTooltip(
+                `<div>
+                     삼육서울병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_df996613c7c20b74c16561e1e91f339d.setIcon(icon_7f1c17a43d86afed6033ddea719059ac);
+            
+    
+            var marker_9bb052ccc7766551f41639b8ffd8dbbd = L.marker(
+                [37.5796660892435, 126.998963084121],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_d9c141e6c57530dd242836f5be7439cc = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1ecbe4f392a37445e3a2cacb23111ff1 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c62be01fc75ae9458354935729c8cfaa = $(`<div id="html_c62be01fc75ae9458354935729c8cfaa" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울대학교병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 종로구</p>                 <p><strong>📋 분류:</strong> <span style='color:black;'>권역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2072-2475</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 종로구 대학로 101 (연건동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5797, 126.9990</p>             </div>             </div>`)[0];
+                popup_1ecbe4f392a37445e3a2cacb23111ff1.setContent(html_c62be01fc75ae9458354935729c8cfaa);
+            
+        
+
+        marker_9bb052ccc7766551f41639b8ffd8dbbd.bindPopup(popup_1ecbe4f392a37445e3a2cacb23111ff1)
+        ;
+
+        
+    
+    
+            marker_9bb052ccc7766551f41639b8ffd8dbbd.bindTooltip(
+                `<div>
+                     서울대학교병원 (권역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9bb052ccc7766551f41639b8ffd8dbbd.setIcon(icon_d9c141e6c57530dd242836f5be7439cc);
+            
+    
+            var marker_e6dbb2ec585124620d07916f326752e4 = L.marker(
+                [37.5804523853297, 126.997196437908],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_df1cb959c3f84bd0a109b8acc7c25296 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bcf21a77682a7ae19f2322b8ac495a53 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9dbaeadfd7b519a4f2bb774db12ebe9e = $(`<div id="html_9dbaeadfd7b519a4f2bb774db12ebe9e" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울대학교치과병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 종로구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-6256-3362</p>                 <p><strong>🏥 병원급:</strong> 치과병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 종로구 대학로 101 (연건동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5805, 126.9972</p>             </div>             </div>`)[0];
+                popup_bcf21a77682a7ae19f2322b8ac495a53.setContent(html_9dbaeadfd7b519a4f2bb774db12ebe9e);
+            
+        
+
+        marker_e6dbb2ec585124620d07916f326752e4.bindPopup(popup_bcf21a77682a7ae19f2322b8ac495a53)
+        ;
+
+        
+    
+    
+            marker_e6dbb2ec585124620d07916f326752e4.bindTooltip(
+                `<div>
+                     서울대학교치과병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e6dbb2ec585124620d07916f326752e4.setIcon(icon_df1cb959c3f84bd0a109b8acc7c25296);
+            
+    
+            var marker_e9f9194dcccd3f1f90cf884ecbe741e1 = L.marker(
+                [37.5841912920986, 127.049838059819],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_cb0a4e3d9cbacc6ec2d5a5b6a04d571d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d5833949b221f531c2567268bae07561 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5f43e6f2ba87c7e37c5de6cc8e61b90a = $(`<div id="html_5f43e6f2ba87c7e37c5de6cc8e61b90a" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울성심병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 동대문구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-966-1616</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 동대문구 왕산로 259, 서울성심병원 (청량리동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5842, 127.0498</p>             </div>             </div>`)[0];
+                popup_d5833949b221f531c2567268bae07561.setContent(html_5f43e6f2ba87c7e37c5de6cc8e61b90a);
+            
+        
+
+        marker_e9f9194dcccd3f1f90cf884ecbe741e1.bindPopup(popup_d5833949b221f531c2567268bae07561)
+        ;
+
+        
+    
+    
+            marker_e9f9194dcccd3f1f90cf884ecbe741e1.bindTooltip(
+                `<div>
+                     서울성심병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e9f9194dcccd3f1f90cf884ecbe741e1.setIcon(icon_cb0a4e3d9cbacc6ec2d5a5b6a04d571d);
+            
+    
+            var marker_37b3f3d4ebffac538a5b4943e02ab47a = L.marker(
+                [37.5671553626368, 126.966998612896],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_ad37660f5582a94cce7e08b144ef149e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_32d9fce486520ecefdacae20936282c3 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8d68cc3ed0b11d231e4ca72e312a0874 = $(`<div id="html_8d68cc3ed0b11d231e4ca72e312a0874" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울적십자병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 종로구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2002-8888</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 종로구 새문안로 9, 적십자병원 (평동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5672, 126.9670</p>             </div>             </div>`)[0];
+                popup_32d9fce486520ecefdacae20936282c3.setContent(html_8d68cc3ed0b11d231e4ca72e312a0874);
+            
+        
+
+        marker_37b3f3d4ebffac538a5b4943e02ab47a.bindPopup(popup_32d9fce486520ecefdacae20936282c3)
+        ;
+
+        
+    
+    
+            marker_37b3f3d4ebffac538a5b4943e02ab47a.bindTooltip(
+                `<div>
+                     서울적십자병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_37b3f3d4ebffac538a5b4943e02ab47a.setIcon(icon_ad37660f5582a94cce7e08b144ef149e);
+            
+    
+            var marker_799563b2c8a6a434206ca4fc08712a58 = L.marker(
+                [37.5753988646488, 127.031402575255],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_db1b262aeb345107cefe7bc83f022595 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_162f579cb446cf3f0d1cc72a36391b09 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_abc6f13e03bb4a11d81f92f0406e8e0f = $(`<div id="html_abc6f13e03bb4a11d81f92f0406e8e0f" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울특별시동부병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 동대문구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-920-9119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 동대문구 무학로 124 (용두동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5754, 127.0314</p>             </div>             </div>`)[0];
+                popup_162f579cb446cf3f0d1cc72a36391b09.setContent(html_abc6f13e03bb4a11d81f92f0406e8e0f);
+            
+        
+
+        marker_799563b2c8a6a434206ca4fc08712a58.bindPopup(popup_162f579cb446cf3f0d1cc72a36391b09)
+        ;
+
+        
+    
+    
+            marker_799563b2c8a6a434206ca4fc08712a58.bindTooltip(
+                `<div>
+                     서울특별시동부병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_799563b2c8a6a434206ca4fc08712a58.setIcon(icon_db1b262aeb345107cefe7bc83f022595);
+            
+    
+            var marker_868f6eefff8db7477f2f959f22e854b4 = L.marker(
+                [37.4937184009319, 126.92404876254],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_74aef2ca30758be6cdff3af478c9db18 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_89fe6dc9b05c4f9cc2b50c66f77cd093 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3efed39592d81fa55b005c1ba047e44a = $(`<div id="html_3efed39592d81fa55b005c1ba047e44a" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울특별시보라매병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 동작구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-870-2119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 동작구 보라매로5길 20 (신대방동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4937, 126.9240</p>             </div>             </div>`)[0];
+                popup_89fe6dc9b05c4f9cc2b50c66f77cd093.setContent(html_3efed39592d81fa55b005c1ba047e44a);
+            
+        
+
+        marker_868f6eefff8db7477f2f959f22e854b4.bindPopup(popup_89fe6dc9b05c4f9cc2b50c66f77cd093)
+        ;
+
+        
+    
+    
+            marker_868f6eefff8db7477f2f959f22e854b4.bindTooltip(
+                `<div>
+                     서울특별시보라매병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_868f6eefff8db7477f2f959f22e854b4.setIcon(icon_74aef2ca30758be6cdff3af478c9db18);
+            
+    
+            var marker_4ebf73fb0ba92f25cc7394435d867854 = L.marker(
+                [37.5120193588377, 126.833129930402],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_34050c3427032944c25c2b1280388a84 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a0726f16eaa5d21b58f29c67a10567e8 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1be683c489f2469807d92e24d91d42a1 = $(`<div id="html_1be683c489f2469807d92e24d91d42a1" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울특별시서남병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 양천구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-6300-9129</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 양천구 신정이펜1로 20 (신정동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5120, 126.8331</p>             </div>             </div>`)[0];
+                popup_a0726f16eaa5d21b58f29c67a10567e8.setContent(html_1be683c489f2469807d92e24d91d42a1);
+            
+        
+
+        marker_4ebf73fb0ba92f25cc7394435d867854.bindPopup(popup_a0726f16eaa5d21b58f29c67a10567e8)
+        ;
+
+        
+    
+    
+            marker_4ebf73fb0ba92f25cc7394435d867854.bindTooltip(
+                `<div>
+                     서울특별시서남병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4ebf73fb0ba92f25cc7394435d867854.setIcon(icon_34050c3427032944c25c2b1280388a84);
+            
+    
+            var marker_2d2f4c43aaf0e4cc6e384719dec08780 = L.marker(
+                [37.6128693151016, 127.098091094925],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_cdc0bb38983c602e1b54b81e29857d2c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2377c9ffd274b8a4b2654477bda5276b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_83e13c29fd0d1b8912532dba28126445 = $(`<div id="html_83e13c29fd0d1b8912532dba28126445" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울특별시서울의료원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 중랑구</p>                 <p><strong>📋 분류:</strong> <span style='color:black;'>권역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2276-7000</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 중랑구 신내로 156 (신내동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6129, 127.0981</p>             </div>             </div>`)[0];
+                popup_2377c9ffd274b8a4b2654477bda5276b.setContent(html_83e13c29fd0d1b8912532dba28126445);
+            
+        
+
+        marker_2d2f4c43aaf0e4cc6e384719dec08780.bindPopup(popup_2377c9ffd274b8a4b2654477bda5276b)
+        ;
+
+        
+    
+    
+            marker_2d2f4c43aaf0e4cc6e384719dec08780.bindTooltip(
+                `<div>
+                     서울특별시서울의료원 (권역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2d2f4c43aaf0e4cc6e384719dec08780.setIcon(icon_cdc0bb38983c602e1b54b81e29857d2c);
+            
+    
+            var marker_1e2cd8840b062e75712bf27e6dc25f80 = L.marker(
+                [37.6402559204261, 127.028504374531],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_613583767db95cfb3bccd773667536ac = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d9c6cec398a6b16ade386ff6dc3bb0d7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d0769146ba7b4f4771eca187da006c27 = $(`<div id="html_d0769146ba7b4f4771eca187da006c27" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>서울현대병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강북구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-902-9119</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강북구 도봉로 374 (번동, 서울현대병원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6403, 127.0285</p>             </div>             </div>`)[0];
+                popup_d9c6cec398a6b16ade386ff6dc3bb0d7.setContent(html_d0769146ba7b4f4771eca187da006c27);
+            
+        
+
+        marker_1e2cd8840b062e75712bf27e6dc25f80.bindPopup(popup_d9c6cec398a6b16ade386ff6dc3bb0d7)
+        ;
+
+        
+    
+    
+            marker_1e2cd8840b062e75712bf27e6dc25f80.bindTooltip(
+                `<div>
+                     서울현대병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1e2cd8840b062e75712bf27e6dc25f80.setIcon(icon_613583767db95cfb3bccd773667536ac);
+            
+    
+            var marker_0dbc7370bce7cc927bb3ac7a4639565c = L.marker(
+                [37.5359840822037, 127.135263546315],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_b77709fdfd551b20ab9782e183995591 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d88aabf41ffc9af235c286966be91d17 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_7e82a5109e652c2a796658d95fca16ab = $(`<div id="html_7e82a5109e652c2a796658d95fca16ab" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>성심의료재단강동성심병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강동구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2224-2358</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강동구 성안로 150 (길동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5360, 127.1353</p>             </div>             </div>`)[0];
+                popup_d88aabf41ffc9af235c286966be91d17.setContent(html_7e82a5109e652c2a796658d95fca16ab);
+            
+        
+
+        marker_0dbc7370bce7cc927bb3ac7a4639565c.bindPopup(popup_d88aabf41ffc9af235c286966be91d17)
+        ;
+
+        
+    
+    
+            marker_0dbc7370bce7cc927bb3ac7a4639565c.bindTooltip(
+                `<div>
+                     성심의료재단강동성심병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0dbc7370bce7cc927bb3ac7a4639565c.setIcon(icon_b77709fdfd551b20ab9782e183995591);
+            
+    
+            var marker_775ade17e415672eb0f6ee565d0bf953 = L.marker(
+                [37.5120504495733, 126.92236733617],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_7cea57bb0c3846cf88d8411b9d3eed16 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f46be0211cb16a1cc4db3a38b1ee3190 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_640396af2bb45ae7a5635d95902baf9a = $(`<div id="html_640396af2bb45ae7a5635d95902baf9a" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>성애의료재단성애병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-840-7115</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 여의대방로53길 22 (신길동, 성애병원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5121, 126.9224</p>             </div>             </div>`)[0];
+                popup_f46be0211cb16a1cc4db3a38b1ee3190.setContent(html_640396af2bb45ae7a5635d95902baf9a);
+            
+        
+
+        marker_775ade17e415672eb0f6ee565d0bf953.bindPopup(popup_f46be0211cb16a1cc4db3a38b1ee3190)
+        ;
+
+        
+    
+    
+            marker_775ade17e415672eb0f6ee565d0bf953.bindTooltip(
+                `<div>
+                     성애의료재단성애병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_775ade17e415672eb0f6ee565d0bf953.setIcon(icon_7cea57bb0c3846cf88d8411b9d3eed16);
+            
+    
+            var marker_7fd7e4eea142b39d2fc1103bb54512b8 = L.marker(
+                [37.5753401699464, 126.957707189235],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_df1969df8a326e1f73d24575e735ad4f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b949033faceeae46d41453cafefeed0a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9342fcc54229acdcba3c994e08fecf41 = $(`<div id="html_9342fcc54229acdcba3c994e08fecf41" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>세란병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 종로구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-737-0181</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 종로구 통일로 256 (무악동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5753, 126.9577</p>             </div>             </div>`)[0];
+                popup_b949033faceeae46d41453cafefeed0a.setContent(html_9342fcc54229acdcba3c994e08fecf41);
+            
+        
+
+        marker_7fd7e4eea142b39d2fc1103bb54512b8.bindPopup(popup_b949033faceeae46d41453cafefeed0a)
+        ;
+
+        
+    
+    
+            marker_7fd7e4eea142b39d2fc1103bb54512b8.bindTooltip(
+                `<div>
+                     세란병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7fd7e4eea142b39d2fc1103bb54512b8.setIcon(icon_df1969df8a326e1f73d24575e735ad4f);
+            
+    
+            var marker_a2bb639f16e208d66728cf63b2d45e26 = L.marker(
+                [37.5338417223144, 127.004417986403],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_52669a1d036586e1c8a44b13905327fe = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d0ae393f5b0ca6c0b17c8d2935ec4390 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_27c46dd5a293b688a37922ef93faba3f = $(`<div id="html_27c46dd5a293b688a37922ef93faba3f" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>순천향대학교 부속 서울병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 용산구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-709-9117</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 용산구 대사관로 59 (한남동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5338, 127.0044</p>             </div>             </div>`)[0];
+                popup_d0ae393f5b0ca6c0b17c8d2935ec4390.setContent(html_27c46dd5a293b688a37922ef93faba3f);
+            
+        
+
+        marker_a2bb639f16e208d66728cf63b2d45e26.bindPopup(popup_d0ae393f5b0ca6c0b17c8d2935ec4390)
+        ;
+
+        
+    
+    
+            marker_a2bb639f16e208d66728cf63b2d45e26.bindTooltip(
+                `<div>
+                     순천향대학교 부속 서울병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a2bb639f16e208d66728cf63b2d45e26.setIcon(icon_52669a1d036586e1c8a44b13905327fe);
+            
+    
+            var marker_cda0903b23a7d5e44954220009efa066 = L.marker(
+                [37.5525892651719, 126.933734666413],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_ab154a13d5b8cc8f81bda9be997c8e45 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4673253ceb4be7fff4916008f00673cf = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_0bee94227c434d7ff6f8162657981216 = $(`<div id="html_0bee94227c434d7ff6f8162657981216" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>신촌연세병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 마포구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-337-7582</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 마포구 서강로 110, 지2층~6층 (신수동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5526, 126.9337</p>             </div>             </div>`)[0];
+                popup_4673253ceb4be7fff4916008f00673cf.setContent(html_0bee94227c434d7ff6f8162657981216);
+            
+        
+
+        marker_cda0903b23a7d5e44954220009efa066.bindPopup(popup_4673253ceb4be7fff4916008f00673cf)
+        ;
+
+        
+    
+    
+            marker_cda0903b23a7d5e44954220009efa066.bindTooltip(
+                `<div>
+                     신촌연세병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cda0903b23a7d5e44954220009efa066.setIcon(icon_ab154a13d5b8cc8f81bda9be997c8e45);
+            
+    
+            var marker_0b1e6da0bc4cb73cf8b5babf8bdc4c5e = L.marker(
+                [37.5188483287621, 126.903679810678],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_91e1118c1b574f791f2a4432c81f0dc6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_705cae6c07b0193dfe084a358d283d61 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_f4af15eb52c708e78c178c61ed8c8caa = $(`<div id="html_f4af15eb52c708e78c178c61ed8c8caa" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>씨엠병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 070-4698-7811</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 영등포로36길 13 (영등포동4가, 충무병원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5188, 126.9037</p>             </div>             </div>`)[0];
+                popup_705cae6c07b0193dfe084a358d283d61.setContent(html_f4af15eb52c708e78c178c61ed8c8caa);
+            
+        
+
+        marker_0b1e6da0bc4cb73cf8b5babf8bdc4c5e.bindPopup(popup_705cae6c07b0193dfe084a358d283d61)
+        ;
+
+        
+    
+    
+            marker_0b1e6da0bc4cb73cf8b5babf8bdc4c5e.bindTooltip(
+                `<div>
+                     씨엠병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0b1e6da0bc4cb73cf8b5babf8bdc4c5e.setIcon(icon_91e1118c1b574f791f2a4432c81f0dc6);
+            
+    
+            var marker_dfc2a1d60a8a97db14297ea681014be3 = L.marker(
+                [37.4928069846454, 127.046312541867],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_51bf7e145f4762268eb13ce50e42aceb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2d4e3bae55eb183dbb41e605097909f6 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_53fa92f22694d92e7852213cb23fa0ba = $(`<div id="html_53fa92f22694d92e7852213cb23fa0ba" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>연세대학교의과대학강남세브란스병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강남구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2019-3333</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강남구 언주로 211, 강남세브란스병원 (도곡동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4928, 127.0463</p>             </div>             </div>`)[0];
+                popup_2d4e3bae55eb183dbb41e605097909f6.setContent(html_53fa92f22694d92e7852213cb23fa0ba);
+            
+        
+
+        marker_dfc2a1d60a8a97db14297ea681014be3.bindPopup(popup_2d4e3bae55eb183dbb41e605097909f6)
+        ;
+
+        
+    
+    
+            marker_dfc2a1d60a8a97db14297ea681014be3.bindTooltip(
+                `<div>
+                     연세대학교의과대학강남세브란스병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dfc2a1d60a8a97db14297ea681014be3.setIcon(icon_51bf7e145f4762268eb13ce50e42aceb);
+            
+    
+            var marker_a391cc179c87caa56526653a2027adff = L.marker(
+                [37.5621171141263, 126.940827696498],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_e2a9a904ceb6d59c3198f61ad928085e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4e4539fed14acfd32fef78d2fb5a6c13 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3db678e2b6e464b5308d8988181de0e2 = $(`<div id="html_3db678e2b6e464b5308d8988181de0e2" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>연세대학교의과대학세브란스병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 서대문구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2227-7777</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 서대문구 연세로 50-1 (신촌동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5621, 126.9408</p>             </div>             </div>`)[0];
+                popup_4e4539fed14acfd32fef78d2fb5a6c13.setContent(html_3db678e2b6e464b5308d8988181de0e2);
+            
+        
+
+        marker_a391cc179c87caa56526653a2027adff.bindPopup(popup_4e4539fed14acfd32fef78d2fb5a6c13)
+        ;
+
+        
+    
+    
+            marker_a391cc179c87caa56526653a2027adff.bindTooltip(
+                `<div>
+                     연세대학교의과대학세브란스병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a391cc179c87caa56526653a2027adff.setIcon(icon_e2a9a904ceb6d59c3198f61ad928085e);
+            
+    
+            var marker_77cc967f016a05f9c55cc30a747501c7 = L.marker(
+                [37.561995974942, 126.796365309931],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_9a272a97927790ab4eea276b6f973fdf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_200d5f06f5b2ae63a24cbc30bdd5883b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_7989e118255b75c570e56f01602f0200 = $(`<div id="html_7989e118255b75c570e56f01602f0200" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>우리들병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강서구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2660-7057</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강서구 하늘길 70 (과해동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5620, 126.7964</p>             </div>             </div>`)[0];
+                popup_200d5f06f5b2ae63a24cbc30bdd5883b.setContent(html_7989e118255b75c570e56f01602f0200);
+            
+        
+
+        marker_77cc967f016a05f9c55cc30a747501c7.bindPopup(popup_200d5f06f5b2ae63a24cbc30bdd5883b)
+        ;
+
+        
+    
+    
+            marker_77cc967f016a05f9c55cc30a747501c7.bindTooltip(
+                `<div>
+                     우리들병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_77cc967f016a05f9c55cc30a747501c7.setIcon(icon_9a272a97927790ab4eea276b6f973fdf);
+            
+    
+            var marker_15007f21aa776ac34560b736d34d02fc = L.marker(
+                [37.6146922208583, 126.917472218592],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_0fce2e2fde4785e3476b09d981b5a285 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dfe3f6a1e1cb6d619df2c25ad76de3f9 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a1fd24a9d78c982903174a57e5a999ab = $(`<div id="html_a1fd24a9d78c982903174a57e5a999ab" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>은평연세병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 은평구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-388-0119</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 은평구 연서로 177 (갈현동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6147, 126.9175</p>             </div>             </div>`)[0];
+                popup_dfe3f6a1e1cb6d619df2c25ad76de3f9.setContent(html_a1fd24a9d78c982903174a57e5a999ab);
+            
+        
+
+        marker_15007f21aa776ac34560b736d34d02fc.bindPopup(popup_dfe3f6a1e1cb6d619df2c25ad76de3f9)
+        ;
+
+        
+    
+    
+            marker_15007f21aa776ac34560b736d34d02fc.bindTooltip(
+                `<div>
+                     은평연세병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_15007f21aa776ac34560b736d34d02fc.setIcon(icon_0fce2e2fde4785e3476b09d981b5a285);
+            
+    
+            var marker_4608a2c3786a8b6e3209e98d69d5ee53 = L.marker(
+                [37.5811042817323, 126.936583066088],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_552e45cc89d3cbd5d9bd9672a13cb481 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b0087360602088826fb151c3f4091385 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9783841af3fab5bbc71d35e2b7f0faca = $(`<div id="html_9783841af3fab5bbc71d35e2b7f0faca" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>의료법인동신의료재단동신병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 서대문구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-396-9161</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 서대문구 연희로 272, 동신병원 본관동 (홍은동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5811, 126.9366</p>             </div>             </div>`)[0];
+                popup_b0087360602088826fb151c3f4091385.setContent(html_9783841af3fab5bbc71d35e2b7f0faca);
+            
+        
+
+        marker_4608a2c3786a8b6e3209e98d69d5ee53.bindPopup(popup_b0087360602088826fb151c3f4091385)
+        ;
+
+        
+    
+    
+            marker_4608a2c3786a8b6e3209e98d69d5ee53.bindTooltip(
+                `<div>
+                     의료법인동신의료재단동신병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4608a2c3786a8b6e3209e98d69d5ee53.setIcon(icon_552e45cc89d3cbd5d9bd9672a13cb481);
+            
+    
+            var marker_67d6ca0c04f3cb717f01533ee8f929d8 = L.marker(
+                [37.4842750704531, 126.932539225772],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_c90c0c01416cc9308ed17a7ad2af4975 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_71b0a4b767d953730a67ec209790845c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_55051e7cb7896c15fc80c9fe22d50333 = $(`<div id="html_55051e7cb7896c15fc80c9fe22d50333" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>의료법인서울효천의료재단에이치플러스양지병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 관악구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 070-4665-9119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 관악구 남부순환로 1636, 양지병원 (신림동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4843, 126.9325</p>             </div>             </div>`)[0];
+                popup_71b0a4b767d953730a67ec209790845c.setContent(html_55051e7cb7896c15fc80c9fe22d50333);
+            
+        
+
+        marker_67d6ca0c04f3cb717f01533ee8f929d8.bindPopup(popup_71b0a4b767d953730a67ec209790845c)
+        ;
+
+        
+    
+    
+            marker_67d6ca0c04f3cb717f01533ee8f929d8.bindTooltip(
+                `<div>
+                     의료법인서울효천의료재단에이치플러스양지병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_67d6ca0c04f3cb717f01533ee8f929d8.setIcon(icon_c90c0c01416cc9308ed17a7ad2af4975);
+            
+    
+            var marker_e1c63b1677df74d4ddaab12e174763cb = L.marker(
+                [37.6354704320949, 127.022672518784],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_4430c8b80c49a13377340b856922dc5b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f12c801f20e580bd4c5b14b56d1c6a1b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_31ad11b8e9f9e8eb28d35e43cce5f932 = $(`<div id="html_31ad11b8e9f9e8eb28d35e43cce5f932" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>의료법인성화의료재단대한병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강북구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-905-9110</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강북구 도봉로 301 (수유동, 대한병원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6355, 127.0227</p>             </div>             </div>`)[0];
+                popup_f12c801f20e580bd4c5b14b56d1c6a1b.setContent(html_31ad11b8e9f9e8eb28d35e43cce5f932);
+            
+        
+
+        marker_e1c63b1677df74d4ddaab12e174763cb.bindPopup(popup_f12c801f20e580bd4c5b14b56d1c6a1b)
+        ;
+
+        
+    
+    
+            marker_e1c63b1677df74d4ddaab12e174763cb.bindTooltip(
+                `<div>
+                     의료법인성화의료재단대한병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e1c63b1677df74d4ddaab12e174763cb.setIcon(icon_4430c8b80c49a13377340b856922dc5b);
+            
+    
+            var marker_0df8bf2d5274e359dc8d44b3b339e889 = L.marker(
+                [37.526858089517, 126.89561402986],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_58e1e769d56409d2fb5d514eaa862edf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a0776752b4162150eeb46847f8a5c01c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_48ddcb8256a16b15189124c97d8e7be5 = $(`<div id="html_48ddcb8256a16b15189124c97d8e7be5" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>의료법인인봉의료재단영등포병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2632-0013</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 당산로31길 10 (당산동3가)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5269, 126.8956</p>             </div>             </div>`)[0];
+                popup_a0776752b4162150eeb46847f8a5c01c.setContent(html_48ddcb8256a16b15189124c97d8e7be5);
+            
+        
+
+        marker_0df8bf2d5274e359dc8d44b3b339e889.bindPopup(popup_a0776752b4162150eeb46847f8a5c01c)
+        ;
+
+        
+    
+    
+            marker_0df8bf2d5274e359dc8d44b3b339e889.bindTooltip(
+                `<div>
+                     의료법인인봉의료재단영등포병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0df8bf2d5274e359dc8d44b3b339e889.setIcon(icon_58e1e769d56409d2fb5d514eaa862edf);
+            
+    
+            var marker_5fce01362ec5ecd0865e12d9f93bb969 = L.marker(
+                [37.6207915443588, 126.919553991692],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_7be9a345217e2f6d0bf6e37de9627eb1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fee1b8837515793707e9e12f65363782 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_bf7e616af7d3921f4f52ee9697fa0ede = $(`<div id="html_bf7e616af7d3921f4f52ee9697fa0ede" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>의료법인청구성심병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 은평구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-383-0129</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 은평구 통일로 873 (갈현동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6208, 126.9196</p>             </div>             </div>`)[0];
+                popup_fee1b8837515793707e9e12f65363782.setContent(html_bf7e616af7d3921f4f52ee9697fa0ede);
+            
+        
+
+        marker_5fce01362ec5ecd0865e12d9f93bb969.bindPopup(popup_fee1b8837515793707e9e12f65363782)
+        ;
+
+        
+    
+    
+            marker_5fce01362ec5ecd0865e12d9f93bb969.bindTooltip(
+                `<div>
+                     의료법인청구성심병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5fce01362ec5ecd0865e12d9f93bb969.setIcon(icon_7be9a345217e2f6d0bf6e37de9627eb1);
+            
+    
+            var marker_cded5cf7704e37655b0beb7a1a695af8 = L.marker(
+                [37.6006756459266, 127.109029221016],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_4ffd77ea7b1263e5b3e18e511370d224 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7109b144c59eb09e3fcca145aa0c7b41 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_46f7862c73b15b0f66bd199a4531840d = $(`<div id="html_46f7862c73b15b0f66bd199a4531840d" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>의료법인풍산의료재단동부제일병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 중랑구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-490-8880</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 중랑구 망우로 511, 동부제일병원 지하1~6층 (망우동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6007, 127.1090</p>             </div>             </div>`)[0];
+                popup_7109b144c59eb09e3fcca145aa0c7b41.setContent(html_46f7862c73b15b0f66bd199a4531840d);
+            
+        
+
+        marker_cded5cf7704e37655b0beb7a1a695af8.bindPopup(popup_7109b144c59eb09e3fcca145aa0c7b41)
+        ;
+
+        
+    
+    
+            marker_cded5cf7704e37655b0beb7a1a695af8.bindTooltip(
+                `<div>
+                     의료법인풍산의료재단동부제일병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cded5cf7704e37655b0beb7a1a695af8.setIcon(icon_4ffd77ea7b1263e5b3e18e511370d224);
+            
+    
+            var marker_21f4fd6a717cad6f769d58a600c90ab5 = L.marker(
+                [37.6461157041909, 127.029024179504],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_2fadd5f9e12d64c1162a9af1d14049f9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5dc39eb7d54ab448bb9a42bba3e2e752 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2dbf22d62fd5910b193bb297339f1f72 = $(`<div id="html_2dbf22d62fd5910b193bb297339f1f72" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>의료법인한전의료재단한일병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 도봉구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-901-3119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 도봉구 우이천로 308, 한일병원 (쌍문동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6461, 127.0290</p>             </div>             </div>`)[0];
+                popup_5dc39eb7d54ab448bb9a42bba3e2e752.setContent(html_2dbf22d62fd5910b193bb297339f1f72);
+            
+        
+
+        marker_21f4fd6a717cad6f769d58a600c90ab5.bindPopup(popup_5dc39eb7d54ab448bb9a42bba3e2e752)
+        ;
+
+        
+    
+    
+            marker_21f4fd6a717cad6f769d58a600c90ab5.bindTooltip(
+                `<div>
+                     의료법인한전의료재단한일병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_21f4fd6a717cad6f769d58a600c90ab5.setIcon(icon_2fadd5f9e12d64c1162a9af1d14049f9);
+            
+    
+            var marker_75cd967fe4418ce740e89c04a353bb43 = L.marker(
+                [37.536542826378, 126.886215968305],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_90b32e0335fdec2c9b00a2f77b643ab0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cbbc2bec624aed4fbc8424b1b042cb23 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_60fbd61dab45e082a36ac37336ce8837 = $(`<div id="html_60fbd61dab45e082a36ac37336ce8837" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>이화여자대학교의과대학부속목동병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 양천구</p>                 <p><strong>📋 분류:</strong> <span style='color:black;'>권역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2650-5911</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 양천구 안양천로 1071 (목동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5365, 126.8862</p>             </div>             </div>`)[0];
+                popup_cbbc2bec624aed4fbc8424b1b042cb23.setContent(html_60fbd61dab45e082a36ac37336ce8837);
+            
+        
+
+        marker_75cd967fe4418ce740e89c04a353bb43.bindPopup(popup_cbbc2bec624aed4fbc8424b1b042cb23)
+        ;
+
+        
+    
+    
+            marker_75cd967fe4418ce740e89c04a353bb43.bindTooltip(
+                `<div>
+                     이화여자대학교의과대학부속목동병원 (권역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_75cd967fe4418ce740e89c04a353bb43.setIcon(icon_90b32e0335fdec2c9b00a2f77b643ab0);
+            
+    
+            var marker_e734d2f4d399f7a76466cb2443eb22a5 = L.marker(
+                [37.557261149, 126.8362659275],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_01b73779a0eb7fe11559ad28f2c0f38d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e276c29c09afe81dd665a0f2da041ce0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5aa796a683b0fa486c76adc59401d820 = $(`<div id="html_5aa796a683b0fa486c76adc59401d820" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>이화여자대학교의과대학부속서울병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강서구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-6986-5119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강서구 공항대로 260, 이화의대부속서울병원 (마곡동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5573, 126.8363</p>             </div>             </div>`)[0];
+                popup_e276c29c09afe81dd665a0f2da041ce0.setContent(html_5aa796a683b0fa486c76adc59401d820);
+            
+        
+
+        marker_e734d2f4d399f7a76466cb2443eb22a5.bindPopup(popup_e276c29c09afe81dd665a0f2da041ce0)
+        ;
+
+        
+    
+    
+            marker_e734d2f4d399f7a76466cb2443eb22a5.bindTooltip(
+                `<div>
+                     이화여자대학교의과대학부속서울병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e734d2f4d399f7a76466cb2443eb22a5.setIcon(icon_01b73779a0eb7fe11559ad28f2c0f38d);
+            
+    
+            var marker_9bdc1dc9d6e36948a5bdd361df0a38c2 = L.marker(
+                [37.6485812672986, 127.063116190321],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_a8876f7dccc99e1336467dd7f3e3efa1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ec8007454786788cc306248ad13d981b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_11e743635ff185ac7c49e74df0de2629 = $(`<div id="html_11e743635ff185ac7c49e74df0de2629" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>인제대학교상계백병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 노원구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-950-1119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 노원구 동일로 1342, 상계백병원 (상계동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6486, 127.0631</p>             </div>             </div>`)[0];
+                popup_ec8007454786788cc306248ad13d981b.setContent(html_11e743635ff185ac7c49e74df0de2629);
+            
+        
+
+        marker_9bdc1dc9d6e36948a5bdd361df0a38c2.bindPopup(popup_ec8007454786788cc306248ad13d981b)
+        ;
+
+        
+    
+    
+            marker_9bdc1dc9d6e36948a5bdd361df0a38c2.bindTooltip(
+                `<div>
+                     인제대학교상계백병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9bdc1dc9d6e36948a5bdd361df0a38c2.setIcon(icon_a8876f7dccc99e1336467dd7f3e3efa1);
+            
+    
+            var marker_7582ac9968b5a0ea01ef8079954343e7 = L.marker(
+                [37.5650731684839, 126.988845330551],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_fe7cf20ee7df5c89e82d6a7be8a06ead = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2e0014d65fac5f92ae0ea7947e4d48cc = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9f5040a547d3a0586abaa72072622a4f = $(`<div id="html_9f5040a547d3a0586abaa72072622a4f" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>인제대학교서울백병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 중구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2270-0119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 중구 마른내로 9 (저동2가)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5651, 126.9888</p>             </div>             </div>`)[0];
+                popup_2e0014d65fac5f92ae0ea7947e4d48cc.setContent(html_9f5040a547d3a0586abaa72072622a4f);
+            
+        
+
+        marker_7582ac9968b5a0ea01ef8079954343e7.bindPopup(popup_2e0014d65fac5f92ae0ea7947e4d48cc)
+        ;
+
+        
+    
+    
+            marker_7582ac9968b5a0ea01ef8079954343e7.bindTooltip(
+                `<div>
+                     인제대학교서울백병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7582ac9968b5a0ea01ef8079954343e7.setIcon(icon_fe7cf20ee7df5c89e82d6a7be8a06ead);
+            
+    
+            var marker_a2f80ef420a0d8e3c465f48ab26bf01e = L.marker(
+                [37.4980712696596, 127.057267108835],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_bed17baedd5f6587e1f05379a62c0cf0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_37440302044ab6caa07d0e6bdd88d029 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e2037654fa2d32792c2b4c73203effb5 = $(`<div id="html_e2037654fa2d32792c2b4c73203effb5" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>재단법인베스티안재단베스티안서울병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강남구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 070-7609-9902</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강남구 도곡로 429 (대치동, 베스티안병원 2층일부 제외)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4981, 127.0573</p>             </div>             </div>`)[0];
+                popup_37440302044ab6caa07d0e6bdd88d029.setContent(html_e2037654fa2d32792c2b4c73203effb5);
+            
+        
+
+        marker_a2f80ef420a0d8e3c465f48ab26bf01e.bindPopup(popup_37440302044ab6caa07d0e6bdd88d029)
+        ;
+
+        
+    
+    
+            marker_a2f80ef420a0d8e3c465f48ab26bf01e.bindTooltip(
+                `<div>
+                     재단법인베스티안재단베스티안서울병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a2f80ef420a0d8e3c465f48ab26bf01e.setIcon(icon_bed17baedd5f6587e1f05379a62c0cf0);
+            
+    
+            var marker_f76a0d7721a48fe756c363e53d38c8da = L.marker(
+                [37.5651102845783, 127.028019796271],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_1d4600fa6aa42863fca2b2f35d14ec9b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e38f2daf2a0fe7572a5d3c6551264c48 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_96c8d93ba929cc23001029c5fd9d0d92 = $(`<div id="html_96c8d93ba929cc23001029c5fd9d0d92" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>재단법인베스티안재단베스티안서울병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 성동구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-6211-7965</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 성동구 왕십리로 382 (하왕십리동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5651, 127.0280</p>             </div>             </div>`)[0];
+                popup_e38f2daf2a0fe7572a5d3c6551264c48.setContent(html_96c8d93ba929cc23001029c5fd9d0d92);
+            
+        
+
+        marker_f76a0d7721a48fe756c363e53d38c8da.bindPopup(popup_e38f2daf2a0fe7572a5d3c6551264c48)
+        ;
+
+        
+    
+    
+            marker_f76a0d7721a48fe756c363e53d38c8da.bindTooltip(
+                `<div>
+                     재단법인베스티안재단베스티안서울병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f76a0d7721a48fe756c363e53d38c8da.setIcon(icon_1d4600fa6aa42863fca2b2f35d14ec9b);
+            
+    
+            var marker_e47beb6eef83287a9bec26143cf6e8ad = L.marker(
+                [37.5265639663612, 127.108238251136],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_584d82561144b2ccd5e4752369d445a5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1821ba392a3fcd952677f9efcb555bd1 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9cbcb2b2b9117a238dff8d997aaa6451 = $(`<div id="html_9cbcb2b2b9117a238dff8d997aaa6451" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>재단법인아산사회복지재단서울아산병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 송파구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-3010-3333</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 송파구 올림픽로43길 88, 서울아산병원 (풍납동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5266, 127.1082</p>             </div>             </div>`)[0];
+                popup_1821ba392a3fcd952677f9efcb555bd1.setContent(html_9cbcb2b2b9117a238dff8d997aaa6451);
+            
+        
+
+        marker_e47beb6eef83287a9bec26143cf6e8ad.bindPopup(popup_1821ba392a3fcd952677f9efcb555bd1)
+        ;
+
+        
+    
+    
+            marker_e47beb6eef83287a9bec26143cf6e8ad.bindTooltip(
+                `<div>
+                     재단법인아산사회복지재단서울아산병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e47beb6eef83287a9bec26143cf6e8ad.setIcon(icon_584d82561144b2ccd5e4752369d445a5);
+            
+    
+            var marker_475744f4399180b9dcbc0363ca29cd84 = L.marker(
+                [37.5070742849341, 126.960793784475],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_53b9bd1b163225f8af918750f8218f18 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e2579c7a10faf84691bd388f56ce0d66 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_85ff27f9c650897097ab9fbe46ac6ee2 = $(`<div id="html_85ff27f9c650897097ab9fbe46ac6ee2" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>중앙대학교병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 동작구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-6299-1338</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 동작구 흑석로 102 (흑석동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5071, 126.9608</p>             </div>             </div>`)[0];
+                popup_e2579c7a10faf84691bd388f56ce0d66.setContent(html_85ff27f9c650897097ab9fbe46ac6ee2);
+            
+        
+
+        marker_475744f4399180b9dcbc0363ca29cd84.bindPopup(popup_e2579c7a10faf84691bd388f56ce0d66)
+        ;
+
+        
+    
+    
+            marker_475744f4399180b9dcbc0363ca29cd84.bindTooltip(
+                `<div>
+                     중앙대학교병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_475744f4399180b9dcbc0363ca29cd84.setIcon(icon_53b9bd1b163225f8af918750f8218f18);
+            
+    
+            var marker_1b9c5a40f5368e62c8e00c5cce3a7d8e = L.marker(
+                [37.5068000258508, 127.03466865188],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_91723c442c408adc9a1fc611635dd814 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2b0b4fe3c775a36bb4e902ab126be176 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1ee74460bd2a60bca16525eba41fd44b = $(`<div id="html_1ee74460bd2a60bca16525eba41fd44b" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>차의과학대학교 강남차병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강남구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-3468-3060</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강남구 논현로 566, 강남차병원(역삼동650-9, 606-4, 605외2필지(...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5068, 127.0347</p>             </div>             </div>`)[0];
+                popup_2b0b4fe3c775a36bb4e902ab126be176.setContent(html_1ee74460bd2a60bca16525eba41fd44b);
+            
+        
+
+        marker_1b9c5a40f5368e62c8e00c5cce3a7d8e.bindPopup(popup_2b0b4fe3c775a36bb4e902ab126be176)
+        ;
+
+        
+    
+    
+            marker_1b9c5a40f5368e62c8e00c5cce3a7d8e.bindTooltip(
+                `<div>
+                     차의과학대학교 강남차병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1b9c5a40f5368e62c8e00c5cce3a7d8e.setIcon(icon_91723c442c408adc9a1fc611635dd814);
+            
+    
+            var marker_60671eb732e0481792946dafbce5087e = L.marker(
+                [37.604769594378, 126.923855760856],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_af19f4a9b3214e23181594ffd5670929 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2c352e7e2c501d886c7b5668a3f145ed = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e836dac494ee6a5ed23378ca0edac76d = $(`<div id="html_e836dac494ee6a5ed23378ca0edac76d" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>최원호병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 은평구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-3156-8119</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 은평구 서오릉로 45, 최원호병원 (녹번동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6048, 126.9239</p>             </div>             </div>`)[0];
+                popup_2c352e7e2c501d886c7b5668a3f145ed.setContent(html_e836dac494ee6a5ed23378ca0edac76d);
+            
+        
+
+        marker_60671eb732e0481792946dafbce5087e.bindPopup(popup_2c352e7e2c501d886c7b5668a3f145ed)
+        ;
+
+        
+    
+    
+            marker_60671eb732e0481792946dafbce5087e.bindTooltip(
+                `<div>
+                     최원호병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_60671eb732e0481792946dafbce5087e.setIcon(icon_af19f4a9b3214e23181594ffd5670929);
+            
+    
+            var marker_0156861daa2ed13f7e9ab079e1f067b1 = L.marker(
+                [37.5018008047852, 127.004727259701],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_8b0b80d595c32370e56aed050bfeb2ca = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_62986b2f3d45d0995fa4bd15b167997c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_441dadc264791478dff1924ba28c5783 = $(`<div id="html_441dadc264791478dff1924ba28c5783" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>학교법인가톨릭학원가톨릭대학교서울성모병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 서초구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2258-2370</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 서초구 반포대로 222 (반포동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5018, 127.0047</p>             </div>             </div>`)[0];
+                popup_62986b2f3d45d0995fa4bd15b167997c.setContent(html_441dadc264791478dff1924ba28c5783);
+            
+        
+
+        marker_0156861daa2ed13f7e9ab079e1f067b1.bindPopup(popup_62986b2f3d45d0995fa4bd15b167997c)
+        ;
+
+        
+    
+    
+            marker_0156861daa2ed13f7e9ab079e1f067b1.bindTooltip(
+                `<div>
+                     학교법인가톨릭학원가톨릭대학교서울성모병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0156861daa2ed13f7e9ab079e1f067b1.setIcon(icon_8b0b80d595c32370e56aed050bfeb2ca);
+            
+    
+            var marker_d818a8d040329cd43e4dfa6b7b76c32c = L.marker(
+                [37.5871560800236, 127.026470863859],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_bd32a9945afcaa532352940163849ec6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_45babf3dbdf57926f39dd5c39c88579d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ed939e08969986ff2183f4e1ef9d51fd = $(`<div id="html_ed939e08969986ff2183f4e1ef9d51fd" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>학교법인고려중앙학원고려대학교의과대학부속병원(안암병원)</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 성북구</p>                 <p><strong>📋 분류:</strong> <span style='color:black;'>권역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-920-5374</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 성북구 고려대로 73, 고려대병원 (안암동5가)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5872, 127.0265</p>             </div>             </div>`)[0];
+                popup_45babf3dbdf57926f39dd5c39c88579d.setContent(html_ed939e08969986ff2183f4e1ef9d51fd);
+            
+        
+
+        marker_d818a8d040329cd43e4dfa6b7b76c32c.bindPopup(popup_45babf3dbdf57926f39dd5c39c88579d)
+        ;
+
+        
+    
+    
+            marker_d818a8d040329cd43e4dfa6b7b76c32c.bindTooltip(
+                `<div>
+                     학교법인고려중앙학원고려대학교의과대학부속병원(안암병원) (권역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d818a8d040329cd43e4dfa6b7b76c32c.setIcon(icon_bd32a9945afcaa532352940163849ec6);
+            
+    
+            var marker_0cc3d16a82717b721ba10cfe00162c9a = L.marker(
+                [37.5224047841717, 126.890913736375],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_686036eb0a2964aee9ede4177a30517e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_808e0bfdd3a68a1bbef21f05033d224f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9e9821ac37a11fa92333f17f82423e53 = $(`<div id="html_9e9821ac37a11fa92333f17f82423e53" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>한강수병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2063-8413</p>                 <p><strong>🏥 병원급:</strong> 병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 영등포로 83, 한강수병원 (양평동1가)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5224, 126.8909</p>             </div>             </div>`)[0];
+                popup_808e0bfdd3a68a1bbef21f05033d224f.setContent(html_9e9821ac37a11fa92333f17f82423e53);
+            
+        
+
+        marker_0cc3d16a82717b721ba10cfe00162c9a.bindPopup(popup_808e0bfdd3a68a1bbef21f05033d224f)
+        ;
+
+        
+    
+    
+            marker_0cc3d16a82717b721ba10cfe00162c9a.bindTooltip(
+                `<div>
+                     한강수병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0cc3d16a82717b721ba10cfe00162c9a.setIcon(icon_686036eb0a2964aee9ede4177a30517e);
+            
+    
+            var marker_d66c9bb558a9c5e310567f3940b1a905 = L.marker(
+                [37.5282209008966, 127.146718861735],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_019ca21623a6029279da0c031eff3fde = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_71ca7a7d5d688982dc4cf53a21e7a8e6 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_980366209b732b79e66167afdae86f39 = $(`<div id="html_980366209b732b79e66167afdae86f39" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>한국보훈복지의료공단중앙보훈병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 강동구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2225-1100</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 강동구 진황도로61길 53 (둔촌동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5282, 127.1467</p>             </div>             </div>`)[0];
+                popup_71ca7a7d5d688982dc4cf53a21e7a8e6.setContent(html_980366209b732b79e66167afdae86f39);
+            
+        
+
+        marker_d66c9bb558a9c5e310567f3940b1a905.bindPopup(popup_71ca7a7d5d688982dc4cf53a21e7a8e6)
+        ;
+
+        
+    
+    
+            marker_d66c9bb558a9c5e310567f3940b1a905.bindTooltip(
+                `<div>
+                     한국보훈복지의료공단중앙보훈병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d66c9bb558a9c5e310567f3940b1a905.setIcon(icon_019ca21623a6029279da0c031eff3fde);
+            
+    
+            var marker_68a16bd46f41bfaee932a1a5ce940bfd = L.marker(
+                [37.6288159813303, 127.082693157965],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_cb194f81ad6031438603c0bd2185d71f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_56d92b4533e5acd23bb2f925f55fea27 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_66f70e3aabc96db26d586e7dca5c7daa = $(`<div id="html_66f70e3aabc96db26d586e7dca5c7daa" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>한국원자력의학원원자력병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 노원구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-970-2620</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 노원구 노원로 75, 한국원자력의학원 (공릉동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.6288, 127.0827</p>             </div>             </div>`)[0];
+                popup_56d92b4533e5acd23bb2f925f55fea27.setContent(html_66f70e3aabc96db26d586e7dca5c7daa);
+            
+        
+
+        marker_68a16bd46f41bfaee932a1a5ce940bfd.bindPopup(popup_56d92b4533e5acd23bb2f925f55fea27)
+        ;
+
+        
+    
+    
+            marker_68a16bd46f41bfaee932a1a5ce940bfd.bindTooltip(
+                `<div>
+                     한국원자력의학원원자력병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_68a16bd46f41bfaee932a1a5ce940bfd.setIcon(icon_cb194f81ad6031438603c0bd2185d71f);
+            
+    
+            var marker_cebfc0a9816ec24f87e10f105ced437c = L.marker(
+                [37.4932492859, 126.9086725295],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_d4f3cb0cda19e6737a798ee213595a1c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_de7597252097eaf469a34ead73bac53c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1e610ce31ccee09cf0eb5c3471bec43b = $(`<div id="html_1e610ce31ccee09cf0eb5c3471bec43b" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>한림대학교강남성심병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:red;'>지역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-829-5119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 신길로 1 (대림동, 강남성심병원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4932, 126.9087</p>             </div>             </div>`)[0];
+                popup_de7597252097eaf469a34ead73bac53c.setContent(html_1e610ce31ccee09cf0eb5c3471bec43b);
+            
+        
+
+        marker_cebfc0a9816ec24f87e10f105ced437c.bindPopup(popup_de7597252097eaf469a34ead73bac53c)
+        ;
+
+        
+    
+    
+            marker_cebfc0a9816ec24f87e10f105ced437c.bindTooltip(
+                `<div>
+                     한림대학교강남성심병원 (지역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cebfc0a9816ec24f87e10f105ced437c.setIcon(icon_d4f3cb0cda19e6737a798ee213595a1c);
+            
+    
+            var marker_97f953e2e5549e6657e996dd59181000 = L.marker(
+                [37.5234667457927, 126.910330001205],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_32a3de1ce6334be0fb0ff8080407fb49 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c5bc0e2f3ae58b87c337894a57929a23 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1648ce0ea4016ce8bd9e67f01adb1b42 = $(`<div id="html_1648ce0ea4016ce8bd9e67f01adb1b42" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>한림대학교한강성심병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 영등포구</p>                 <p><strong>📋 분류:</strong> <span style='color:green;'>응급실운영신고기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2639-5555</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 영등포구 버드나루로7길 12 (영등포동7가, 한강성심병원)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5235, 126.9103</p>             </div>             </div>`)[0];
+                popup_c5bc0e2f3ae58b87c337894a57929a23.setContent(html_1648ce0ea4016ce8bd9e67f01adb1b42);
+            
+        
+
+        marker_97f953e2e5549e6657e996dd59181000.bindPopup(popup_c5bc0e2f3ae58b87c337894a57929a23)
+        ;
+
+        
+    
+    
+            marker_97f953e2e5549e6657e996dd59181000.bindTooltip(
+                `<div>
+                     한림대학교한강성심병원 (응급실운영신고기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_97f953e2e5549e6657e996dd59181000.setIcon(icon_32a3de1ce6334be0fb0ff8080407fb49);
+            
+    
+            var marker_6951061ac26b4c86b2d2805dac068949 = L.marker(
+                [37.5599445335647, 127.044882840619],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_022e94938efa1f9c6a6e202db5dbf0dd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a1e1a3c180ce4954694c32564b0067ad = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_dee6f29c638eeb7172028841ab0ce5db = $(`<div id="html_dee6f29c638eeb7172028841ab0ce5db" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>한양대학교병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 성동구</p>                 <p><strong>📋 분류:</strong> <span style='color:black;'>권역응급의료센터</span></p>                 <p><strong>📞 응급실:</strong> 02-2290-8284</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 성동구 왕십리로 222-1 (사근동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5599, 127.0449</p>             </div>             </div>`)[0];
+                popup_a1e1a3c180ce4954694c32564b0067ad.setContent(html_dee6f29c638eeb7172028841ab0ce5db);
+            
+        
+
+        marker_6951061ac26b4c86b2d2805dac068949.bindPopup(popup_a1e1a3c180ce4954694c32564b0067ad)
+        ;
+
+        
+    
+    
+            marker_6951061ac26b4c86b2d2805dac068949.bindTooltip(
+                `<div>
+                     한양대학교병원 (권역응급의료센터)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6951061ac26b4c86b2d2805dac068949.setIcon(icon_022e94938efa1f9c6a6e202db5dbf0dd);
+            
+    
+            var marker_70b5123a19b3385494fee80b8cdfaec0 = L.marker(
+                [37.5353156601804, 127.083601302585],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_177d4c712fdde4a190d45fd281f817db = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2eb23df6d39c5c0d454a0425cd55c6a2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5317d6ea52e614a280f20a21319fbc86 = $(`<div id="html_5317d6ea52e614a280f20a21319fbc86" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>혜민병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 광진구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2049-9119</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 광진구 자양로 85 (자양동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5353, 127.0836</p>             </div>             </div>`)[0];
+                popup_2eb23df6d39c5c0d454a0425cd55c6a2.setContent(html_5317d6ea52e614a280f20a21319fbc86);
+            
+        
+
+        marker_70b5123a19b3385494fee80b8cdfaec0.bindPopup(popup_2eb23df6d39c5c0d454a0425cd55c6a2)
+        ;
+
+        
+    
+    
+            marker_70b5123a19b3385494fee80b8cdfaec0.bindTooltip(
+                `<div>
+                     혜민병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_70b5123a19b3385494fee80b8cdfaec0.setIcon(icon_177d4c712fdde4a190d45fd281f817db);
+            
+    
+            var marker_0ba0d4ff1fe899ea535f49842d50a913 = L.marker(
+                [37.5284414744735, 126.863664003006],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_9f53a3eb06e65e1e765bf21af892dae9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d66b58937712d60d1a59ea70b1eed00a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_f8829055d1dc965e83cb01cb1d0a4a10 = $(`<div id="html_f8829055d1dc965e83cb01cb1d0a4a10" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>홍익병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 양천구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-2600-0777</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 양천구 목동로 225, 홍익병원본관 (신정동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.5284, 126.8637</p>             </div>             </div>`)[0];
+                popup_d66b58937712d60d1a59ea70b1eed00a.setContent(html_f8829055d1dc965e83cb01cb1d0a4a10);
+            
+        
+
+        marker_0ba0d4ff1fe899ea535f49842d50a913.bindPopup(popup_d66b58937712d60d1a59ea70b1eed00a)
+        ;
+
+        
+    
+    
+            marker_0ba0d4ff1fe899ea535f49842d50a913.bindTooltip(
+                `<div>
+                     홍익병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0ba0d4ff1fe899ea535f49842d50a913.setIcon(icon_9f53a3eb06e65e1e765bf21af892dae9);
+            
+    
+            var marker_38f3207088f50b6ef349a78b18148cb3 = L.marker(
+                [37.4556706346417, 126.900562518638],
+                {
+}
+            ).addTo(marker_cluster_2c6a458e911ef64a8afb88251dfb6144);
+        
+    
+            var icon_900e613c5bdb475d9a0e60dd0ba0a7b4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "plus-sign",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_946627da862008918bfe563ef92d1e21 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_60b42e917a0ad8ad6303c0e727ad33cf = $(`<div id="html_60b42e917a0ad8ad6303c0e727ad33cf" style="width: 100.0%; height: 100.0%;">             <div style='width:300px; font-family: Arial, sans-serif;'>                 <h4 style='margin:0; color:#333;'>희명병원</h4>                 <hr style='margin:5px 0;'>                 <p><strong>📍 위치:</strong> 금천구</p>                 <p><strong>📋 분류:</strong> <span style='color:orange;'>지역응급의료기관</span></p>                 <p><strong>📞 응급실:</strong> 02-809-0122</p>                 <p><strong>🏥 병원급:</strong> 종합병원</p>                 <p><strong>📍 주소:</strong> 서울특별시 금천구 시흥대로 244 (시흥동)...</p>                 <p style='font-size:12px; color:gray;'>좌표: 37.4557, 126.9006</p>             </div>             </div>`)[0];
+                popup_946627da862008918bfe563ef92d1e21.setContent(html_60b42e917a0ad8ad6303c0e727ad33cf);
+            
+        
+
+        marker_38f3207088f50b6ef349a78b18148cb3.bindPopup(popup_946627da862008918bfe563ef92d1e21)
+        ;
+
+        
+    
+    
+            marker_38f3207088f50b6ef349a78b18148cb3.bindTooltip(
+                `<div>
+                     희명병원 (지역응급의료기관)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_38f3207088f50b6ef349a78b18148cb3.setIcon(icon_900e613c5bdb475d9a0e60dd0ba0a7b4);
+            
+    
+            marker_cluster_2c6a458e911ef64a8afb88251dfb6144.addTo(map_dc843ac90800b9615421ae4e7424a1ae);
+        
+</script>
+</html>
